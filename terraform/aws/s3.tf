@@ -9,16 +9,26 @@ resource "aws_s3_bucket" "data" {
     Name        = "${local.resource_prefix.value}-data"
     Environment = local.resource_prefix.value
     }, {
-    git_commit           = "4d57f83ca4d3a78a44fb36d1dcf0d23983fa44f5"
+    git_commit           = "3f5b66d407a8fab9148c7ae9edc5a600d42f00b4"
     git_file             = "terraform/aws/s3.tf"
-    git_last_modified_at = "2022-05-18 07:08:06"
-    git_last_modified_by = "nimrod@bridgecrew.io"
-    git_modifiers        = "34870196+LironElbaz/nimrod/nimrodkor"
-    git_org              = "bridgecrewio"
+    git_last_modified_at = "2021-12-13 06:34:51"
+    git_last_modified_by = "34870196+LironElbaz@users.noreply.github.com"
+    git_modifiers        = "34870196+LironElbaz/nimrodkor"
+    git_org              = "MilanGit12"
     git_repo             = "terragoat"
     yor_trace            = "0874007d-903a-4b4c-945f-c9c233e13243"
   })
 }
+
+
+resource "aws_s3_bucket_versioning" "data" {
+  bucket = aws_s3_bucket.data.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
 
 resource "aws_s3_bucket_object" "data_object" {
   bucket = aws_s3_bucket.data.id
@@ -62,6 +72,16 @@ resource "aws_s3_bucket" "financials" {
 
 }
 
+
+resource "aws_s3_bucket_versioning" "financials" {
+  bucket = aws_s3_bucket.financials.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+
 resource "aws_s3_bucket" "operations" {
   # bucket is not encrypted
   # bucket does not have access logs
@@ -85,6 +105,18 @@ resource "aws_s3_bucket" "operations" {
     yor_trace            = "29efcf7b-22a8-4bd6-8e14-1f55b3a2d743"
   })
 }
+
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "operations" {
+  bucket = aws_s3_bucket.operations.bucket
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "aws:kms"
+    }
+  }
+}
+
 
 resource "aws_s3_bucket" "data_science" {
   # bucket is not encrypted
