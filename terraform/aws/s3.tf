@@ -111,6 +111,16 @@ resource "aws_s3_bucket" "operations" {
 
 resource "aws_s3_bucket" "operations_log_bucket" {
   bucket = "operations-log-bucket"
+  tags = {
+    git_commit           = "02be5d2dd3974084dc3ee6204c038deec5467ed5"
+    git_file             = "terraform/aws/s3.tf"
+    git_last_modified_at = "2023-02-08 19:10:42"
+    git_last_modified_by = "milpatel@paloaltonetworks.com"
+    git_modifiers        = "milpatel"
+    git_org              = "MilanGit12"
+    git_repo             = "terragoat"
+    yor_trace            = "7ac724dc-625f-4720-a9c0-d1a99b1a7e3c"
+  }
 }
 
 resource "aws_s3_bucket_logging" "operations" {
