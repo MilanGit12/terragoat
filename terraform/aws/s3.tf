@@ -109,6 +109,22 @@ resource "aws_s3_bucket" "operations" {
 }
 
 
+resource "aws_s3_bucket" "operations_log_bucket" {
+  bucket = "operations-log-bucket"
+}
+
+resource "aws_s3_bucket_logging" "operations" {
+  bucket = aws_s3_bucket.operations.id
+
+  target_bucket = aws_s3_bucket.operations_log_bucket.id
+  target_prefix = "log/"
+}
+
+
+
+
+
+
 resource "aws_s3_bucket_server_side_encryption_configuration" "operations" {
   bucket = aws_s3_bucket.operations.bucket
 
