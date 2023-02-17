@@ -123,6 +123,16 @@ resource "aws_s3_bucket" "operations_log_bucket" {
   }
 }
 
+
+resource "aws_s3_bucket_versioning" "operations_log_bucket" {
+  bucket = aws_s3_bucket.operations_log_bucket.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+
 resource "aws_s3_bucket_logging" "operations" {
   bucket = aws_s3_bucket.operations.id
 
