@@ -88,9 +88,9 @@ resource "aws_s3_bucket" "operations" {
     Name        = "${local.resource_prefix.value}-operations"
     Environment = local.resource_prefix.value
     }, {
-    git_commit           = "N/A"
+    git_commit           = "c955c5293ac14128d3b4ebd10b5f72ef1ac8b1c4"
     git_file             = "terraform/aws/s3.tf"
-    git_last_modified_at = "2023-02-22 20:20:29"
+    git_last_modified_at = "2023-02-22 20:37:38"
     git_last_modified_by = "milpatel@paloaltonetworks.com"
     git_modifiers        = "milpatel/nimrodkor"
     git_org              = "MilanGit12"
@@ -113,7 +113,14 @@ resource "aws_s3_bucket" "destination" {
     status = "Enabled"
   }
   tags = {
-    yor_trace = "055c9fe1-c645-46c3-8a4b-a5823d6001b2"
+    yor_trace            = "055c9fe1-c645-46c3-8a4b-a5823d6001b2"
+    git_commit           = "c955c5293ac14128d3b4ebd10b5f72ef1ac8b1c4"
+    git_file             = "terraform/aws/s3.tf"
+    git_last_modified_at = "2023-02-22 20:37:38"
+    git_last_modified_by = "milpatel@paloaltonetworks.com"
+    git_modifiers        = "milpatel"
+    git_org              = "MilanGit12"
+    git_repo             = "terragoat"
   }
 }
 
@@ -135,7 +142,14 @@ resource "aws_iam_role" "replication" {
 }
 POLICY
   tags = {
-    yor_trace = "4b267e3a-651e-4ea8-8c8d-003107ac4a87"
+    yor_trace            = "4b267e3a-651e-4ea8-8c8d-003107ac4a87"
+    git_commit           = "c955c5293ac14128d3b4ebd10b5f72ef1ac8b1c4"
+    git_file             = "terraform/aws/s3.tf"
+    git_last_modified_at = "2023-02-22 20:37:38"
+    git_last_modified_by = "milpatel@paloaltonetworks.com"
+    git_modifiers        = "milpatel"
+    git_org              = "MilanGit12"
+    git_repo             = "terragoat"
   }
 }
 
