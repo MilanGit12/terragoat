@@ -77,7 +77,7 @@ resource "aws_s3_bucket_versioning" "financials" {
 resource "aws_s3_bucket" "operations" {
   # bucket is not encrypted
   # bucket does not have access logs
-  # testing yor workflow
+  # testing yor workflow change
   bucket = "${local.resource_prefix.value}-operations"
   acl    = "private"
   versioning {
@@ -88,9 +88,9 @@ resource "aws_s3_bucket" "operations" {
     Name        = "${local.resource_prefix.value}-operations"
     Environment = local.resource_prefix.value
     }, {
-    git_commit           = "9aa1a1f9da4ef9db898efbe5dd8860fd2fe549b9"
+    git_commit           = "N/A"
     git_file             = "terraform/aws/s3.tf"
-    git_last_modified_at = "2023-02-07 22:20:28"
+    git_last_modified_at = "2023-02-22 20:20:29"
     git_last_modified_by = "milpatel@paloaltonetworks.com"
     git_modifiers        = "milpatel/nimrodkor"
     git_org              = "MilanGit12"
@@ -98,6 +98,64 @@ resource "aws_s3_bucket" "operations" {
     yor_trace            = "29efcf7b-22a8-4bd6-8e14-1f55b3a2d743"
   })
 }
+
+
+resource "aws_s3_bucket_versioning" "operations" {
+  bucket = aws_s3_bucket.operations.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket" "destination" {
+  bucket = aws_s3_bucket.operations.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+  tags = {
+    yor_trace = "055c9fe1-c645-46c3-8a4b-a5823d6001b2"
+  }
+}
+
+resource "aws_iam_role" "replication" {
+  name               = "aws-iam-role"
+  assume_role_policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "s3.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+POLICY
+  tags = {
+    yor_trace = "4b267e3a-651e-4ea8-8c8d-003107ac4a87"
+  }
+}
+
+resource "aws_s3_bucket_replication_configuration" "operations" {
+  depends_on = [aws_s3_bucket_versioning.operations]
+  role       = aws_iam_role.operations.arn
+  bucket     = aws_s3_bucket.operations.id
+  rule {
+    id     = "foobar"
+    status = "Enabled"
+    destination {
+      bucket        = aws_s3_bucket.destination.arn
+      storage_class = "STANDARD"
+    }
+  }
+}
+
+
+
+
 
 
 resource "aws_s3_bucket" "operations_log_bucket" {

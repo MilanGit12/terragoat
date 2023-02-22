@@ -136,7 +136,6 @@ resource "aws_subnet" "web_subnet" {
   vpc_id                  = aws_vpc.web_vpc.id
   cidr_block              = "172.16.10.0/24"
   availability_zone       = "${var.region}a"
-  map_public_ip_on_launch = true
 
   tags = merge({
     Name = "${local.resource_prefix.value}-subnet"
@@ -151,6 +150,7 @@ resource "aws_subnet" "web_subnet" {
     yor_trace            = "0345f650-d280-4ca8-86c9-c71c38c0eda8"
   })
 }
+
 
 resource "aws_subnet" "web_subnet2" {
   vpc_id                  = aws_vpc.web_vpc.id
